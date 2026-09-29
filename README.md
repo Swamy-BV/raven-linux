@@ -1,18 +1,20 @@
 # Raven Linux
 
-Build entry point for FRDM-IMX95 development. NXP BSP 6.18.20-2.0.0,
+Build entry point for FRDM-IMX95 development. NXP BSP 6.18.37-2.1.0,
 Yocto Wrynose, ROS 2 Jazzy. Use a Linux filesystem for the workspace.
 
 ```sh
 git clone -b develop https://github.com/Swamy-BV/raven-linux.git
 ./raven-linux/scripts/sync.sh /home/dev/raven/linux
-# Read /home/dev/raven/linux/sources/meta-imx/LICENSE.txt before accepting.
+./raven-linux/scripts/setup.sh /home/dev/raven/linux
+# Build only when desired; read sources/meta-imx/LICENSE.txt before accepting.
 ACCEPT_FSL_EULA=1 ./raven-linux/scripts/build.sh /home/dev/raven/linux
 ```
 
-The main project pins the manifest commit in `release.env`. `raven-frdm.xml`
-includes the untouched NXP release XML, pins meta-ros, and follows only
-meta-raven's develop branch. Each build writes `resolved-manifest.xml` to
+The main project pins the manifest commit in `release.env`. `raven.xml` contains all pinned NXP release projects and meta-ros, and follows
+only meta-raven's develop branch. It is shared across boards; board selection
+belongs in meta-raven machine configurations. Setup alone leaves the NXP
+license unaccepted and does not invoke a build. Each build writes `resolved-manifest.xml` to
 record the exact revisions; use that file for a reproducible release.
 
 Image: `raven-image-ros`; machine: `raven-frdm-imx95`.
